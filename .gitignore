@@ -1,0 +1,13 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Build
+/out/
+/build/
+
+# Arquivos temporários
+*.class
+*.log
+*.tmp
