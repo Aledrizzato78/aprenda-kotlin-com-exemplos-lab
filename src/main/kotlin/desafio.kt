@@ -9,6 +9,7 @@ data class Usuario(
     var formacaoAtual: Formacao?,
     val formacoesConcluidas: MutableList<Formacao> = mutableListOf(),
     var ultimoAcesso: LocalDate,
+    val progressoPorFormacao: MutableMap<Formacao, Int> = mutableMapOf()
 )
 
 data class ConteudoEducacional(val nome: String , val duracao: Int = 100)
@@ -49,22 +50,33 @@ fun main() {
     val formacaoBackend = Formacao("kotlin Backend", Nivel.BACKEND, conteudos = conteudosBackend)
 
 
-    val novoAluno = Usuario(
-        nome = "Alex",
-        email = "ale@uol.com",
-        formacaoAtual = null,
-        ultimoAcesso = LocalDate.of(2025, 12, 12),
-    )
-    formacaoBasico.matricular(novoAluno)
+    val alex = Usuario("Alex", "ale@uol.com", null, mutableListOf(), LocalDate.now())
+    val joao = Usuario("João", "joao@uol.com", null, mutableListOf(), LocalDate.now())
+    val alberto = Usuario("Alberto", "alberto@uol.com", null, mutableListOf(), LocalDate.now())
 
-    println("Inscritos na formação ${formacaoBasico.nome}:")
-    formacaoBasico.inscritos.forEach { aluno ->
-        println("Nome: ${aluno.nome}, Email: ${aluno.email}, Último Acesso: ${aluno.ultimoAcesso}")
-        println("Formação Atual: ${aluno.formacaoAtual?.nome} [${aluno.formacaoAtual?.nivel}]")
-        println("Conteúdos:")
-        aluno.formacaoAtual?.conteudos?.forEach { conteudo ->
-            println("- ${conteudo.nome} (${conteudo.duracao}min)")
+    formacaoBasico.matricular(alex)
+    formacaoData.matricular(joao)
+    formacaoBackend.matricular(alberto)
+
+    alex.progressoPorFormacao[formacaoBasico] = formacaoBasico.conteudos.size
+    joao.progressoPorFormacao[formacaoData] = 2
+    alberto.progressoPorFormacao[formacaoBackend] = formacaoBackend.conteudos.size - 1
+
+    val formacoes = listOf(formacaoBasico, formacaoData, formacaoBackend)
+
+    formacoes.forEach { formacao ->
+        println("Inscritos na formação ${formacao.nome}:")
+        formacao.inscritos.forEach { aluno ->
+            println("Nome: ${aluno.nome}, Email: ${aluno.email}, Último Acesso: ${aluno.ultimoAcesso}")
+            println("Formação Atual: ${aluno.formacaoAtual?.nome} [${aluno.formacaoAtual?.nivel}]")
+            val progresso = aluno.progressoPorFormacao[formacao] ?: 0
+            println("Conteúdos Concluídos:")
+            formacao.conteudos.take(progresso).forEach { conteudo ->
+                println("- ${conteudo.nome} (${conteudo.duracao}min)")
+            }
+            val porcentagem = (progresso * 100) / formacao.conteudos.size
+            println("Progresso: $porcentagem%")
+            println()
         }
-        println()
     }
 }

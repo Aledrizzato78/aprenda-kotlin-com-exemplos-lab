@@ -1,0 +1,53 @@
++----------------------+
+|       Usuario        |
+|----------------------|
+| nome                 |
+| email                |
+| formacaoAtual        |
+| formacoesConcluidas  |
++----------------------+
+
+          |
+          | está inscrito em
+          v
+
++----------------------+
+|       Formacao       |
+|----------------------|
+| nome                 |
+| nivel                |
+| conteudos            |
+| inscritos            |
++----------------------+
+
+          |
+          | possui
+          v
+
++----------------------+
+| ConteudoEducacional  |
+|----------------------|
+| nome                 |
+| duracao              |
++----------------------+
+
+
+
+1 criar conteúdos educacionais
+
+2 criar formações
+   Kotlin Basico
+   Kotlin Data
+   Kotlin Backend
+
+3 associar conteúdos às formações
+
+4 criar usuários
+
+5 matricular usuários nas formações
+
+6 atualizar progresso
+
+7 marcar formação como concluída
+
+
